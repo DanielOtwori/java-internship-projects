@@ -1,49 +1,113 @@
-**Java Internship Projects – Codveda Technology**
+# Java Internship Projects – Codveda Technology
 
-Internship Program: Java Development – Codveda Technology
-Welcome to my collection of Java internship projects completed as part of the Codveda Technology Java Development program. The projects are structured across three levels, from basic console applications to advanced database and multithreaded systems, demonstrating my progress and skills in Java programming.
+## Internship Program: Java Development – Codveda Technology
 
-📚 Level 1 – Basic
-1. Calculator
-   
-A console-based calculator performing addition, subtraction, multiplication, and division.
-Includes input validation and handling edge cases like division by zero.
-Skills applied: Java basics, methods, conditionals, loops, user input handling.
+Welcome to my collection of Java internship projects completed as part of the Codveda Technology Java Development program. These projects are structured across three levels—Basic, Intermediate, and Advanced—showcasing my growth and practical skills in Java programming.
 
-2.Number Guessing Game
+---
 
-A simple game where the user guesses a randomly generated number within limited attempts.
-Provides feedback (“too high” / “too low”) and handles invalid input.
-Skills applied: Random number generation, loops, conditional statements.
+##  Level 1 – Basic
 
-💼 Level 2 – Intermediate
-1. Employee Management System
-   
-A CRUD application to manage employee records (add, view, update, delete).
-Uses Object-Oriented Programming with classes and ArrayLists for in-memory storage.
-Skills applied: Classes, objects, ArrayLists, OOP concepts.
+### 1. Calculator
+A console-based calculator that performs:
+- Addition, subtraction, multiplication, and division  
+- Input validation and error handling (e.g., division by zero)
 
-2. Simple Banking Application
+**Skills Applied:**
+Java fundamentals, methods, conditionals, loops, user input handling
 
-Simulates bank account operations: deposit, withdraw, and check balance.
-Implements basic error handling for insufficient funds.
-Skills applied: Classes, methods, user input, error handling, OOP principles.
+---
 
-🏛️ Level 3 – Advanced
-1. Library Management System with JDBC
-   
-Connects to a MySQL database to manage books and users.
-Supports CRUD operations and handles borrowing/returning transactions.
-Skills applied: JDBC, SQL, database connectivity, exception handling, OOP.
+### 2. Number Guessing Game
+A simple interactive game where:
+- The user guesses a randomly generated number within limited attempts  
+- The program provides feedback ("Too High" / "Too Low")  
+- Handles invalid input gracefully  
 
-2. Multithreaded Chat Application
-Console-based chat system allowing multiple users to communicate simultaneously.
-Implements server-client architecture with Java Sockets and multithreading.
-Skills applied: Networking, multithreading, concurrency management, OOP.
+**Skills Applied:**
+Random number generation, loops, conditional logic
 
-**Key Takeaways**
+---
 
-Applied Java fundamentals to real-world projects.
-Gained hands-on experience with OOP, file handling, JDBC, multithreading, and networking.
-Strengthened problem-solving, debugging, and application design skills.
-Learned to work independently and manage project development from planning to execution.
+## Level 2 – Intermediate
+
+### 1. Employee Management System
+A desktop-based CRUD application that allows users to:
+- Add, view, update, and delete employee records  
+- Manage structured data using Object-Oriented Programming  
+
+**Skills Applied:**
+Classes, objects, ArrayLists, OOP principles, GUI (Swing)
+
+---
+
+### 2. Simple Banking Application
+A simulation of basic banking operations:
+- Deposit, withdraw, and check account balance  
+- Handles errors such as insufficient funds  
+
+**Skills Applied:**
+Classes, methods, user input handling, exception handling, OOP
+
+---
+
+## Level 3 – Advanced
+
+### 1. Library Management System with JDBC
+A database-driven application that:
+- Connects to MySQL using JDBC  
+- Performs full CRUD operations on books and users  
+- Manages borrowing and returning transactions  
+
+**Skills Applied:**
+JDBC, SQL, database connectivity, exception handling, OOP
+
+---
+
+### 2. Multithreaded Chat Application
+A console-based real-time chat system:
+- Supports multiple users communicating simultaneously  
+- Built using client-server architecture with Java Sockets  
+- Uses multithreading for concurrent communication  
+
+**Skills Applied:**
+Networking, multithreading, concurrency, socket programming, OOP
+
+---
+
+## Key Takeaways
+
+- Applied Java concepts to real-world scenarios  
+- Gained hands-on experience in:
+  - Object-Oriented Programming (OOP)
+  - GUI Development (Swing)
+  - JDBC & Database Integration
+  - Multithreading & Networking  
+- Strengthened problem-solving and debugging skills  
+- Improved ability to design and structure complete applications  
+
+---
+
+## Technologies Used
+
+- Java  
+- Java Swing  
+- MySQL  
+- JDBC  
+- Sockets & Multithreading  
+
+---
+
+## 📈 Project Highlights
+
+This repository demonstrates my progression from:
+- Basic console applications ➝  
+- Intermediate object-oriented systems ➝  
+- Advanced database and concurrent applications  
+
+---
+
+## 👨‍💻 Author
+
+**Daniel Otwori**  
+Java Developer | Software Engineer
