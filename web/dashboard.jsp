@@ -1,181 +1,226 @@
-<%@ page session="true" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="java.util.*, level3.librarymanagement.model.IssuedBook" %>
 
 <%
-    // PROTECT PAGE
-    if (session == null || session.getAttribute("user") == null) {
-        response.sendRedirect("login.jsp");
-        return;
-    }
+    Integer totalBooks = (Integer) request.getAttribute("totalBooks");
+    Integer issuedBooks = (Integer) request.getAttribute("issuedBooks");
+    Integer returnedBooks = (Integer) request.getAttribute("returnedBooks");
+    Integer totalUsers = (Integer) request.getAttribute("totalUsers");
 
-    String user = session.getAttribute("user").toString();
+    if (totalBooks == null) totalBooks = 0;
+    if (issuedBooks == null) issuedBooks = 0;
+    if (returnedBooks == null) returnedBooks = 0;
+    if (totalUsers == null) totalUsers = 0;
 
-    //SUCCESS MESSAGE (FROM SESSION)
-    String success = (String) session.getAttribute("success");
-    if (success != null) {
-        session.removeAttribute("success"); // clear after showing
-    }
+    List<IssuedBook> issuedList =
+            (List<IssuedBook>) request.getAttribute("issuedList");
+
+    if (issuedList == null) issuedList = new ArrayList<>();
 %>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Library Management</title>
+    <title>Dashboard</title>
 
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css">
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f4f6f9;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: #1abc9c;
+        }
+
+        .card-box {
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+        }
+
+        .card-green { background: linear-gradient(45deg, #16a085, #1abc9c); }
+        .card-yellow { background: linear-gradient(45deg, #f39c12, #f1c40f); }
+        .card-success { background: linear-gradient(45deg, #27ae60, #2ecc71); }
+        .card-blue { background: linear-gradient(45deg, #3498db, #5dade2); }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* THEME MATCH LOGOUT BUTTON */
+        .btn-logout {
+            background: linear-gradient(45deg, #16a085, #1abc9c);
+            color: white;
+            border: none;
+        }
+
+        .btn-logout:hover {
+            opacity: 0.9;
+            color: white;
+        }
+    </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
-<header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 px-3"
-       href="${pageContext.request.contextPath}/dashboard">
-        <i class="bi bi-book-half me-2"></i>Library
-    </a>
-
-    <div class="navbar-nav d-flex flex-row align-items-center me-3">
-        <span class="text-white me-3">Welcome, <%= user %></span>
-
-        <a class="nav-link px-3"
-           href="${pageContext.request.contextPath}/logout">
-            Sign out
-        </a>
-    </div>
-</header>
 
 <div class="container-fluid">
     <div class="row">
 
         <!-- SIDEBAR -->
-        <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-            <div class="position-sticky sidebar-sticky">
-                <ul class="nav flex-column">
+        <div class="col-md-2 sidebar">
+            <h4>Library</h4>
 
-                    <li class="nav-item">
-                        <a class="nav-link active"
-                           href="${pageContext.request.contextPath}/dashboard">
-                            <i class="bi bi-speedometer2"></i> Dashboard
-                        </a>
-                    </li>
+            <a href="dashboard" class="active">Dashboard</a>
+            <a href="assignBook">Assign Book</a>
+            <a href="returnBooks">Return Book</a>
+            <a href="books">Books</a>
+            <a href="add_book.jsp">Add Book</a>
+            <a href="users">Users</a>
+            <a href="add_user.jsp">Add User</a>
+        </div>
 
-                    <!-- FIXED LINKS -->
+        <!-- MAIN -->
+        <div class="col-md-10 p-4">
 
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/assignBook">
-                            <i class="bi bi-arrow-right-circle"></i> Assign Book
-                        </a>
-                    </li>
+            <!-- TOP BAR -->
+            <div class="top-bar mb-3">
+                <h2>Dashboard</h2>
 
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/returnBooks">
-                            <i class="bi bi-arrow-left-circle"></i> Return Books
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/books">
-                            <i class="bi bi-book"></i> Books
-                        </a>
-                    </li>
-
-                    <!-- MAIN FIX HERE -->
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/add_book.jsp">
-                            <i class="bi bi-plus-circle"></i> Add Book
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/users">
-                            <i class="bi bi-people"></i> Users
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link"
-                           href="${pageContext.request.contextPath}/add_user.jsp">
-                            <i class="bi bi-person-plus"></i> Add User
-                        </a>
-                    </li>
-
-                </ul>
-            </div>
-        </nav>
-
-        <!-- MAIN CONTENT -->
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-
-            <div class="page-header mt-3">
-                <h1 class="h2">
-                    <i class="bi bi-speedometer2 me-2"></i>Dashboard
-                </h1>
+                <!-- LOGOUT BUTTON -->
+                <a href="<%= request.getContextPath() %>/logout"
+                   class="btn btn-sm btn-logout">
+                    <i class="bi bi-box-arrow-right me-1"></i> Logout
+                </a>
             </div>
 
-            <!-- SUCCESS MESSAGE -->
-            <% if (success != null) { %>
-            <div class="alert alert-success alert-dismissible fade show mt-3">
-                <%= success %>
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            </div>
-            <% } %>
-
-            <!-- CARDS -->
-            <div class="row mb-4 mt-3">
+            <!-- STATS -->
+            <div class="row g-3 mb-4">
 
                 <div class="col-md-3">
-                    <div class="card text-white bg-primary mb-3 shadow">
-                        <div class="card-body">
-                            <h6>Total Books</h6>
-                            <h3><%= request.getAttribute("totalBooks") != null ? request.getAttribute("totalBooks") : 0 %></h3>
-                        </div>
+                    <div class="card-box card-green">
+                        <h6>Total Books</h6>
+                        <h2><%= totalBooks %></h2>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card text-white bg-warning mb-3 shadow">
-                        <div class="card-body">
-                            <h6>Books Assigned</h6>
-                            <h3><%= request.getAttribute("borrowedBooks") != null ? request.getAttribute("borrowedBooks") : 0 %></h3>
-                        </div>
+                    <div class="card-box card-yellow">
+                        <h6>Books Assigned</h6>
+                        <h2><%= issuedBooks %></h2>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card text-white bg-success mb-3 shadow">
-                        <div class="card-body">
-                            <h6>Books Returned</h6>
-                            <h3><%= request.getAttribute("returnedBooks") != null ? request.getAttribute("returnedBooks") : 0 %></h3>
-                        </div>
+                    <div class="card-box card-success">
+                        <h6>Books Returned</h6>
+                        <h2><%= returnedBooks %></h2>
                     </div>
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card text-white bg-info mb-3 shadow">
-                        <div class="card-body">
-                            <h6>Users</h6>
-                            <h3><%= request.getAttribute("totalUsers") != null ? request.getAttribute("totalUsers") : 0 %></h3>
-                        </div>
+                    <div class="card-box card-blue">
+                        <h6>Users</h6>
+                        <h2><%= totalUsers %></h2>
                     </div>
                 </div>
 
             </div>
 
-        </main>
+            <!-- TABLE -->
+            <div class="table-card">
+
+                <h5 class="mb-3">Currently Issued Books</h5>
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>User</th>
+                        <th>Due Date</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <%
+                        if (!issuedList.isEmpty()) {
+
+                            int i = 1;
+
+                            for (IssuedBook b : issuedList) {
+
+                                String dueDate = "N/A";
+
+                                if (b.getDueDate() != null) {
+                                    dueDate = b.getDueDate().toString();
+                                }
+                    %>
+
+                    <tr>
+                        <td><%= i++ %></td>
+                        <td><strong><%= b.getBookTitle() %></strong></td>
+                        <td><%= b.getUserName() %></td>
+                        <td>
+                            <span class="badge bg-warning text-dark">
+                                <%= dueDate %>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <%
+                        }
+                    } else {
+                    %>
+
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No issued books found
+                        </td>
+                    </tr>
+
+                    <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>

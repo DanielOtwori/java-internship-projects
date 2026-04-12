@@ -27,44 +27,56 @@
             <p class="login-subtitle">Create your library account</p>
         </div>
 
-        <!--  CONNECTED FORM -->
+        <!-- SUCCESS / ERROR MESSAGE -->
+        <%
+            String success = request.getParameter("success");
+            String error = request.getParameter("error");
+        %>
+
+        <% if (success != null) { %>
+        <div class="alert alert-success">Account created successfully!</div>
+        <% } %>
+
+        <% if (error != null) { %>
+        <div class="alert alert-danger">Registration failed. Try again.</div>
+        <% } %>
+
+        <!-- FORM -->
         <form action="${pageContext.request.contextPath}/registerUser" method="post">
 
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
-                <label><i class="bi bi-person me-2"></i>First Name</label>
+                <label>First Name</label>
             </div>
 
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
-                <label><i class="bi bi-person me-2"></i>Last Name</label>
+                <label>Last Name</label>
             </div>
 
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="email" class="form-control" name="email" placeholder="Email" required>
-                <label><i class="bi bi-envelope me-2"></i>Email</label>
+                <label>Email</label>
             </div>
 
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="password" class="form-control" name="password" id="password" required>
-                <label><i class="bi bi-lock me-2"></i>Password</label>
+                <label>Password</label>
             </div>
 
-            <!--  add name attribute -->
-            <div class="form-floating">
+            <div class="form-floating mb-2">
                 <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required>
-                <label><i class="bi bi-lock me-2"></i>Confirm Password</label>
+                <label>Confirm Password</label>
             </div>
 
-            <button type="submit" class="btn btn-login mt-3">
-                <i class="bi bi-check-circle me-2"></i>Create Account
+            <button type="submit" class="btn btn-primary w-100 mt-3">
+                Create Account
             </button>
 
             <div class="text-center mt-3">
-                <p class="mb-0">
+                <p>
                     Already have an account?
-                    <!-- LINK -->
-                    <a href="${pageContext.request.contextPath}/login.jsp" class="login-link">
+                    <a href="${pageContext.request.contextPath}/login.jsp">
                         Sign in
                     </a>
                 </p>

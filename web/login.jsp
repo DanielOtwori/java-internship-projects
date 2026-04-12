@@ -10,8 +10,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="assets/css/common.css">
-    <link rel="stylesheet" href="assets/css/auth.css">
+    <!-- FIXED PATHS -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/common.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/auth.css">
 </head>
 
 <body class="auth-page">
@@ -27,7 +28,7 @@
             <p class="login-subtitle">Please sign in to your library account</p>
         </div>
 
-        <!-- ERROR MESSAGE (DYNAMIC) -->
+        <!-- ERROR MESSAGE -->
         <%
             String error = (String) request.getAttribute("error");
             if (error != null) {
@@ -36,12 +37,21 @@
             <h6><%= error %></h6>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
+        <% } %>
+
+        <!-- SUCCESS MESSAGE (after register) -->
         <%
-            }
+            String success = request.getParameter("success");
+            if ("registered".equals(success)) {
         %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Account created successfully! Please login.
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
 
         <!-- FORM FIXED -->
-        <form action="login" method="post">
+        <form action="${pageContext.request.contextPath}/login" method="post">
 
             <div class="form-floating mb-3">
                 <input type="text" name="email" class="form-control" placeholder="Email" required>
@@ -68,7 +78,9 @@
             <div class="text-center">
                 <p class="mb-0">
                     Don't have an account?
-                    <a href="register.jsp" class="forgot-link">Sign up here</a>
+                    <a href="${pageContext.request.contextPath}/registerUser" class="forgot-link">
+                        Sign up here
+                    </a>
                 </p>
             </div>
 

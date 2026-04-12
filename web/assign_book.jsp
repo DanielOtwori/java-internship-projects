@@ -2,6 +2,17 @@
 <%@ page import="level3.librarymanagement.model.Book" %>
 <%@ page import="level3.librarymanagement.model.User" %>
 
+<%
+    // SESSION PROTECTION
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+
+    List<Book> books = (List<Book>) request.getAttribute("books");
+    List<User> users = (List<User>) request.getAttribute("users");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +29,6 @@
 <header class="navbar navbar-dark bg-dark">
     <span class="navbar-brand px-3">Library</span>
 
-    <!--FIXED LOGOUT-->
     <a href="${pageContext.request.contextPath}/logout" class="text-white px-3">Logout</a>
 </header>
 
@@ -26,25 +36,42 @@
 
     <h2>Assign Book</h2>
 
-    <!-- FORM CONNECTED TO SERVLET -->
+    <!-- SUCCESS MESSAGE -->
+    <% if (request.getParameter("success") != null) { %>
+    <div class="alert alert-success">
+        <%= request.getParameter("success") %>
+    </div>
+    <% } %>
+
+    <!-- ERROR MESSAGE -->
+    <% if (request.getParameter("error") != null) { %>
+    <div class="alert alert-danger">
+        <%= request.getParameter("error") %>
+    </div>
+    <% } %>
+
+    <!-- FORM -->
     <form action="${pageContext.request.contextPath}/assignBook" method="post">
 
         <!-- BOOK DROPDOWN -->
         <div class="mb-3">
             <label>Select Book</label>
             <select name="bookId" class="form-control" required>
-                <%
-                    List<Book> books = (List<Book>) request.getAttribute("books");
-                    if (books != null) {
-                        for (Book b : books) {
-                %>
+
+                <% if (books != null && !books.isEmpty()) {
+                    for (Book b : books) { %>
+
                 <option value="<%= b.getBookId() %>">
-                    <%= b.getTitle() %> - <%= b.getAuthor() %>
+                    <%= b.getTitle() %> - <%= b.getAuthor() %> (Available: <%= b.getAvailableCopies() %>)
                 </option>
-                <%
-                        }
-                    }
-                %>
+
+                <%  }
+                } else { %>
+
+                <option disabled>No books available</option>
+
+                <% } %>
+
             </select>
         </div>
 
@@ -52,33 +79,38 @@
         <div class="mb-3">
             <label>Select User</label>
             <select name="userId" class="form-control" required>
-                <%
-                    List<User> users = (List<User>) request.getAttribute("users");
-                    if (users != null) {
-                        for (User u : users) {
-                %>
+
+                <% if (users != null && !users.isEmpty()) {
+                    for (User u : users) { %>
+
                 <option value="<%= u.getUserId() %>">
                     <%= u.getFirstName() %> <%= u.getLastName() %>
                 </option>
-                <%
-                        }
-                    }
-                %>
+
+                <%  }
+                } else { %>
+
+                <option disabled>No users found</option>
+
+                <% } %>
+
             </select>
         </div>
 
-        <!-- DATES -->
+        <!-- OPTIONAL DATES -->
         <div class="mb-3">
             <label>Issue Date</label>
-            <input type="date" name="issueDate" class="form-control" required>
+            <input type="date" name="issueDate" class="form-control">
         </div>
 
         <div class="mb-3">
             <label>Due Date</label>
-            <input type="date" name="dueDate" class="form-control" required>
+            <input type="date" name="dueDate" class="form-control">
         </div>
 
-        <button type="submit" class="btn btn-primary">Assign Book</button>
+        <button type="submit" class="btn btn-primary">
+            Assign Book
+        </button>
 
     </form>
 

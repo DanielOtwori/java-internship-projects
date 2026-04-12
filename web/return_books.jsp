@@ -3,7 +3,7 @@
 <%@ page import="java.util.*, java.time.*, level3.librarymanagement.model.IssuedBook" %>
 
 <%
-    // 🔐 Protect page
+    //PROTECT PAGE
     if (session == null || session.getAttribute("user") == null) {
         response.sendRedirect("login.jsp");
         return;
@@ -67,7 +67,7 @@
 
                 <li>
                     <a class="nav-link"
-                       href="${pageContext.request.contextPath}/assign_book.jsp">
+                       href="${pageContext.request.contextPath}/assignBook">
                         Assign Book
                     </a>
                 </li>
@@ -103,6 +103,24 @@
                 <i class="bi bi-arrow-left-circle me-2"></i>Return Books
             </h2>
 
+            <!-- SUCCESS / ERROR MESSAGES -->
+            <%
+                String success = request.getParameter("success");
+                String error = request.getParameter("error");
+            %>
+
+            <% if (success != null) { %>
+            <div class="alert alert-success mt-3">
+                <%= success %>
+            </div>
+            <% } %>
+
+            <% if (error != null) { %>
+            <div class="alert alert-danger mt-3">
+                <%= error %>
+            </div>
+            <% } %>
+
             <div class="table-responsive mt-4">
                 <table class="table table-hover align-middle">
                     <thead class="table-light">
@@ -125,39 +143,55 @@
                         for (IssuedBook b : issuedBooks) {
 
                             LocalDate today = LocalDate.now();
-                            LocalDate dueDate = b.getDueDate().toLocalDate();
+                            LocalDate dueDate = null;
+                            boolean overdue = false;
 
-                            boolean overdue = today.isAfter(dueDate);
+                            if (b.getDueDate() != null) {
+                                dueDate = b.getDueDate().toLocalDate();
+                                overdue = today.isAfter(dueDate);
+                            }
+
+                            boolean returned = "RETURNED".equalsIgnoreCase(b.getStatus());
                     %>
 
-                    <tr>
+                    <tr class="<%= overdue && !returned ? "table-danger" : "" %>">
+
                         <td><%= i++ %></td>
 
-                        <td><%= b.getBookTitle() %></td>
+                        <td><%= b.getBookTitle() != null ? b.getBookTitle() : "N/A" %></td>
 
-                        <td><%= b.getUserName() %></td>
+                        <td><%= b.getUserName() != null ? b.getUserName() : "N/A" %></td>
 
-                        <td><%= b.getIssueDate() %></td>
+                        <td><%= b.getIssueDate() != null ? b.getIssueDate() : "N/A" %></td>
 
-                        <td><%= b.getDueDate() %></td>
+                        <td><%= b.getDueDate() != null ? b.getDueDate() : "N/A" %></td>
 
                         <!-- STATUS -->
                         <td>
-                            <% if (overdue) { %>
+                            <% if (returned) { %>
+                            <span class="badge bg-secondary">Returned</span>
+
+                            <% } else if (overdue) { %>
                             <span class="badge bg-danger">Overdue</span>
+
                             <% } else { %>
                             <span class="badge bg-success">On Time</span>
                             <% } %>
                         </td>
 
-                        <!-- ACTION BUTTON -->
+                        <!-- ACTION -->
                         <td>
+                            <% if (!returned) { %>
                             <a href="${pageContext.request.contextPath}/returnBook?id=<%= b.getIssueId() %>"
                                class="btn btn-sm btn-success"
                                onclick="return confirm('Confirm return of this book?');">
                                 Return
                             </a>
+                            <% } else { %>
+                            <span class="text-muted">Completed</span>
+                            <% } %>
                         </td>
+
                     </tr>
 
                     <%  }

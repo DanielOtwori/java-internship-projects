@@ -12,24 +12,25 @@ import java.util.List;
 @WebServlet("/returnBooks")
 public class ReturnBooksServlet extends HttpServlet {
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //Protect page
+        //SESSION CHECK
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect(request.getContextPath() + "/login.jsp");
             return;
         }
 
-        //Get issued books
+        //FETCH ISSUED BOOKS
         IssuedBookDAO dao = new IssuedBookDAO();
         List<IssuedBook> issuedBooks = dao.getAllIssuedBooks();
 
-        //Send to JSP
+        //SEND DATA
         request.setAttribute("issuedBooks", issuedBooks);
 
-        //Open JSP
-        request.getRequestDispatcher("return_books.jsp").forward(request, response);
+        //FORWARD
+        request.getRequestDispatcher("/return_books.jsp").forward(request, response);
     }
 }
