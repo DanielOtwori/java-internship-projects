@@ -6,7 +6,7 @@ Welcome to my collection of Java internship projects completed as part of the Co
 
 ---
 
-##  Level 1 – Basic
+## Level 1 – Basic
 
 ### 1. Calculator
 A console-based calculator that performs:
@@ -75,6 +75,28 @@ Networking, multithreading, concurrency, socket programming, OOP
 
 ---
 
+### 3. Binary Search Tree (BST) Implementation
+A Java-based data structure project that implements a Binary Search Tree with both console logic and GUI visualization.
+
+**Description:**
+Implement a Binary Search Tree in Java with functionalities like insertion, deletion, search, and traversal (in-order, pre-order, post-order).
+
+**Features:**
+- Create and manage a binary search tree structure using nodes  
+- Insert new nodes into the tree  
+- Delete existing nodes from the tree  
+- Search for specific values  
+- Perform tree traversals:
+  - In-order traversal  
+  - Pre-order traversal  
+  - Post-order traversal  
+- GUI-based interface using Java Swing  
+
+**Skills Applied:**
+Data Structures, recursion, OOP principles, Swing GUI development, algorithm design
+
+---
+
 ## Key Takeaways
 
 - Applied Java concepts to real-world scenarios  
@@ -83,6 +105,8 @@ Networking, multithreading, concurrency, socket programming, OOP
   - GUI Development (Swing)
   - JDBC & Database Integration
   - Multithreading & Networking  
+  - Data Structures & Algorithms (BST)
+
 - Strengthened problem-solving and debugging skills  
 - Improved ability to design and structure complete applications  
 
@@ -103,7 +127,7 @@ Networking, multithreading, concurrency, socket programming, OOP
 This repository demonstrates my progression from:
 - Basic console applications ➝  
 - Intermediate object-oriented systems ➝  
-- Advanced database and concurrent applications  
+- Advanced database, concurrent, and data structure applications  
 
 ---
 
